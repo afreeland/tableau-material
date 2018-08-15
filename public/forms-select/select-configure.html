@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Material Select</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+    
+     <!-- Tableau Extensions API Library  -->
+     <script src="/js/tableau-extensions-1.latest.min.js"></script>
+     <script src="./select-configure.js"></script>
+</head>
+<body>
+    Configuration goes here
+    <div class="container">
+        <form name="configureForm" id="formSelect">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input placeholder="Friendly label" id="select_label" name="selectLabel" type="text" class="validate" required>
+                    <label for="select_label">Label</label>
+                </div>
+                <div class="input-field col s12">
+                    <input placeholder="Enter placeholder text" id="select_placeholder" name="selectPlaceholder" type="text" class="validate">
+                    <label for="select_placeholder">Placeholder</label>
+                </div>
+            </div>
+
+            <div class="row center">
+                <button class="btn red darken-1  waves-effect waves-light" type="submit" name="action">Submit
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
