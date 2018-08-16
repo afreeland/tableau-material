@@ -5,8 +5,10 @@ $(document).ready(function(){
         filter: {},
         placeholder: 'Choose an Option',
         label: 'My Select',
-        
+        allValuesSet: false,
     }
+
+    let allValues = [];
 
     tableau.extensions
         .initializeAsync({ 'configure': configure})
@@ -55,7 +57,7 @@ $(document).ready(function(){
         tableau.extensions.settings.saveAsync()
             .then((newSavedSettings) => {
                 console.log('main page saved select options');
-                tableau.extensions.ui.displayDialogAsync(popupUrl, null, { height: 500, width: 500 }).then((configOpts) => {
+                tableau.extensions.ui.displayDialogAsync(popupUrl, null, { height: 500, width: 500, padding: 0, margin: 0 }).then((configOpts) => {
                     let currentSettings = tableau.extensions.settings.getAll();
                     let opts = JSON.parse(currentSettings[_key]);
                     console.log(opts)
