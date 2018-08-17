@@ -12,8 +12,9 @@ $(document).ready( () => {
     var app = new Vue({
         el: '#app',
         data: {
-            label: 'My Label',
-            placeholder: 'Choose an option',
+            label: 'My Filter',
+            placeholder: 'Please select an option',
+            multiple: false,
             
             sheets: [], // All worksheets (builds out select dropdown)
             selectedSheet: "", // Store the sheet the user selected
@@ -50,11 +51,16 @@ $(document).ready( () => {
         },
         methods: {
 
+            
+
             selectify: function(){
                 console.log('selectify');
                 setTimeout(() => {
                     var elems = document.querySelectorAll('select');
                     var instances = M.FormSelect.init(elems, {});
+
+                    // Lets make sure our labels never overlap when prefilled
+                    M.updateTextFields();
                 }, 0)
                 
             },
@@ -70,9 +76,7 @@ $(document).ready( () => {
                         // We need to have our materialize select update
                         this.selectify();
 
-                        setTimeout( () => {
-                            M.AutoInit();
-                        })
+                        
                     })
                     .catch((err) => {
 
@@ -89,18 +93,52 @@ $(document).ready( () => {
                     })
                     .then((filterValues) => {
                         console.log(filterValues)
-                        this.values = filterValues;
+                        this.values = filterValues.sort(function(a, b) {
+                            return a.toLowerCase().localeCompare(b.toLowerCase());
+                         });
                         this.selectify();
                     })
                     .catch( (err) => {
 
                     })
+            },
+
+            handleSubmit: function(){
+                
+                let model = {
+                    label: this.label,
+                    placeholder: this.placeholder,
+                    values: this.values,
+                    sheet: this.selectedSheet,
+                    filter: this.selectedFilter,
+                    multiple: this.multiple,
+                }
+
+                closeDialog(model);
+
             }
 
 
         }
     })
 
+    function closeDialog(model) {
+        if(model){
+            // let currentSettings = tableau.extensions.settings.getAll();
+            tableau.extensions.settings.set(_key, JSON.stringify(model));
+        
+            tableau.extensions.settings.saveAsync().then((newSavedSettings) => {
+                tableau.extensions.ui.closeDialog();
+            });
+        }else{
+            tableau.extensions.ui.closeDialog();
+        }
+        
+    }
+    /**
+     * 
+     * @param {string} worksheetName 
+     */
     function getFilters(worksheetName){
         return new Promise( (resolve, reject) => {
             // Lets find the requested worksheet
@@ -112,7 +150,10 @@ $(document).ready( () => {
                 .catch(reject)
         })
     }
-
+    /**
+     * 
+     * @param {Filter} filter  
+     */
     function getFilterValues(filter){
         return new Promise( (resolve, reject) => {
             let values = []
@@ -230,14 +271,7 @@ $(document).ready( () => {
 //     //     return false;
 //     // })
 
-//     function closeDialog() {
-//         let currentSettings = tableau.extensions.settings.getAll();
-//         tableau.extensions.settings.set(_key, JSON.stringify(configOpts));
-    
-//         tableau.extensions.settings.saveAsync().then((newSavedSettings) => {
-//             tableau.extensions.ui.closeDialog();
-//         });
-//     }
+
 })
 
 })()

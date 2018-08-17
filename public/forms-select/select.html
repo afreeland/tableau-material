@@ -8,41 +8,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"
     integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
     
      <!-- Tableau Extensions API Library  -->
-     <script src="/js/tableau-extensions-1.latest.min.js"></script>
+     <script src="/js/tableau-extensions-1.latest.js"></script>
    <script src="./select.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="row center">
-        <div class="col s12 m10 offset-m1">
-          <h5 class="header red-text darken-1">Materialize Select</h5>
-          <p>For single and multi-value dropdowns</p>
-        </div>
-        <div class="row center">
-          <a id="start-select" class="btn red darken-1 waves-effect waves-light">Get Started</a>
+  <div id="app">
+  
+    <div class="container" v-if="showWelcome">
+      <div class="row center">
+          <div class="col s12 m10 offset-m1">
+            <h5 class="header red-text darken-1">Materialize Select</h5>
+            <p>For single and multi-value dropdowns</p>
+          </div>
+          <div class="row center">
+            <a id="start-select" class="btn red darken-1 waves-effect waves-light" @click="handleConfigure()">Configure</a>
+          </div>
+      </div>
+    </div>
+
+    <div class="container"  v-if="!showWelcome">
+        <div class="input-field col s12">
+            <select v-model="selected" @change="handleChange()" v-bind:multiple="multiple">
+                <option value="" disabled>{{placeholder}}</option>
+                <option v-for="v in values" v-bind:value="v" >{{v}}</option>
+            </select>
+            <label>{{label}}</label>
         </div>
     </div>
-  </div>
 
-  <div class="container hide" id="container-select">
-      Welcome to select goodness
-      <div class="input-field col s12">
-          <select>
-              <option value="" disabled selected>Choose your option</option>
-              <option value="1">Option 1</option>
-              <option value="2">Option 2</option>
-              <option value="3">Option 3</option>
-          </select>
-          <label>Materialize Select</label>
-      </div>
   </div>
-    
 </body>
 </html>
